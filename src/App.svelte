@@ -5,38 +5,18 @@
 
   $: isRunning = $timerStore.isRunning;
   $: backgroundColor = $timerStore.backgroundColor;
-  $: shouldFlash = $timerStore.shouldFlash;
-  $: flashColor = $timerStore.flashColor;
 
-  let flashState = false;
-  let flashInterval;
-
-  $: if (shouldFlash) {
-    flashInterval = setInterval(() => {
-      flashState = !flashState;
-    }, 500);
-  } else {
-    clearInterval(flashInterval);
-    flashState = false;
-  }
-
-  // CHANGED: Use actual color values instead of Tailwind classes
-  $: bgColorValue = backgroundColor === 'red' ? '#ef4444' :
-    backgroundColor === 'blue' ? '#3b82f6' :
-      backgroundColor === 'default' ? '#1A1A1A' : '#1A1A1A';
-
-  $: currentBg = shouldFlash && flashState ?
-    (flashColor === 'green' ? '#10b981' :
-      flashColor === 'red' ? '#ef4444' : '#ffffff') : bgColorValue;
+  $: currentBg = backgroundColor === 'red' ? '#ef4444' :
+                  backgroundColor === 'blue' ? '#3b82f6' :
+                  '#1A1A1A';
 </script>
 
-<!-- CHANGED: Use style attribute for background color -->
 <main class="min-h-screen transition-colors duration-300 flex items-center justify-center"
   style="background-color: {currentBg}">
   {#if !isRunning}
-  <InputForm />
+    <InputForm />
   {:else}
-  <Timer />
+    <Timer />
   {/if}
 </main>
 

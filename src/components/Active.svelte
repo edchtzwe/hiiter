@@ -1,6 +1,36 @@
 <script>
     import { timerStore } from '../stores/timer.js';
-    // Removed all interval logic - store handles timing now
+    import { onMount, onDestroy } from 'svelte';
+
+    let interval;
+
+    onMount(() => {
+        interval = setInterval(() => {
+            timerStore.update(s => {
+                if (s.currentPhase !== 'active' || !s.isRunning) {
+                    clearInterval(interval);
+                    interval = null;
+                    return s;
+                }
+
+                if (s.timeRemaining > 0) {
+                    return { ...s, timeRemaining: s.timeRemaining - 1 };
+                } else {
+                    clearInterval(interval);
+                    interval = null;
+                    return {
+                        ...s,
+                        currentPhase: 'rest',
+                        timeRemaining: s.rest
+                    };
+                }
+            });
+        }, 1000);
+    });
+
+    onDestroy(() => {
+        clearInterval(interval);
+    });
 </script>
 
 <div class="text-center">
