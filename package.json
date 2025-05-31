@@ -1,0 +1,23 @@
+{
+  "name": "hiit-lapper",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tailwind": "npx tailwindcss -i ./src/app.css -o ./public/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@tailwindcss/cli": "^4.1.7",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "svelte": "^5.28.1",
+    "tailwindcss": "^4.1.7",
+    "vite": "^6.3.5"
+  }
+}
