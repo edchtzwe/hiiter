@@ -1,22 +1,18 @@
 <script>
   import { timerStore } from './stores/timer.js';
   import InputForm from './components/InputForm.svelte';
-  import Timer from './components/Timer.svelte';
+  import Timer from './components/Control.svelte';
 
   $: isRunning = $timerStore.isRunning;
-  $: backgroundColor = $timerStore.backgroundColor;
-
-  $: currentBg = backgroundColor === 'red' ? '#ef4444' :
-                  backgroundColor === 'blue' ? '#3b82f6' :
-                  '#1A1A1A';
+  $: currentBg = $timerStore.backgroundColor;
 </script>
 
 <main class="min-h-screen transition-colors duration-300 flex items-center justify-center"
   style="background-color: {currentBg}">
   {#if !isRunning}
-    <InputForm />
+  <InputForm />
   {:else}
-    <Timer />
+  <Timer />
   {/if}
 </main>
 
