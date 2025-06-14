@@ -1,10 +1,15 @@
 <script>
     import { timerStore } from '../stores/timer.js';
+    import TotalDurationTimer from './TotalDuration.svelte';
     import { onMount, onDestroy } from 'svelte';
 
     let interval;
 
     onMount(() => {
+        timerStore.update(s => {
+            return { ...s, backgroundColor: "#ef4444" };
+        });
+
         interval = setInterval(() => {
             timerStore.update(s => {
                 if (s.currentPhase !== 'active' || !s.isRunning) {
@@ -15,15 +20,15 @@
 
                 if (s.timeRemaining > 0) {
                     return { ...s, timeRemaining: s.timeRemaining - 1 };
-                } else {
-                    clearInterval(interval);
-                    interval = null;
-                    return {
-                        ...s,
-                        currentPhase: 'rest',
-                        timeRemaining: s.rest
-                    };
                 }
+
+                clearInterval(interval);
+                interval = null;
+                return {
+                    ...s,
+                    currentPhase: 'rest',
+                    timeRemaining: s.rest
+                };
             });
         }, 1000);
     });
@@ -43,4 +48,5 @@
             Lap {$timerStore.currentLap} of {$timerStore.totalLaps}
         </p>
     </div>
+    <TotalDurationTimer />
 </div>

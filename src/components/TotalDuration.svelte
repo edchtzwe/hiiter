@@ -5,28 +5,29 @@
     let interval;
 
     onMount(() => {
-        timerStore.update(s => {
-            return { ...s, backgroundColor: "#3b82f6" };
-        });
-
         interval = setInterval(() => {
             timerStore.update(s => {
-                if (s.currentPhase !== 'countdown' || !s.isRunning) {
+                if (!s.isRunning) {
                     clearInterval(interval);
                     interval = null;
                     return s;
                 }
 
-                if (s.timeRemaining > 0) {
-                    return { ...s, timeRemaining: s.timeRemaining - 1 };
+                if (s.totalTimeRemaining > 0) {
+                    return { ...s, totalTimeRemaining: s.totalTimeRemaining - 1 };
                 }
 
                 clearInterval(interval);
                 interval = null;
+
                 return {
                     ...s,
-                    currentPhase: 'active',
-                    timeRemaining: s.active
+                    isRunning: false,
+                    backgroundColor: '#FF5800',
+                    duration: s.duration,
+                    active: s.active,
+                    rest: s.rest,
+                    totalTimeRemaining: s.duration * 60
                 };
             });
         }, 1000);
@@ -37,9 +38,6 @@
     });
 </script>
 
-<div class="text-center">
-    <h1 class="text-[20rem] font-black text-white leading-none">
-        {$timerStore.timeRemaining}
-    </h1>
-    <p class="text-8xl font-black text-white/90 mt-8">GET READY!</p>
-</div>
+<p class="text-2xl font-bold text-white/60 mt-4">
+    Total Time Left: {Math.floor($timerStore.totalTimeRemaining / 60)}:{($timerStore.totalTimeRemaining % 60).toString().padStart(2, '0')}
+</p>
